@@ -41,7 +41,9 @@ def salvarnum():
             add.numero.setText('')
             telegram.show()
             telegram.numero.setText(f"+55{num}")
+            telegram.telefone.setText(f"+55{num}")
             add.close()
+
         else:
             add.notificacao.setText('Número Inválido')
     else:
@@ -59,8 +61,11 @@ def telegram():
                                 '3. Ao receber a confirmação o número já está registrado e pronto para uso.')
 
 
-def registro():
-    telegram.show()
+def printi():
+    tex = numero.listWidget.selectedItems()
+    for nn in tex:
+        nume = nn.text()
+        nume_formatado = nume.split('-')[0].strip()
 
 
 def enviar():
@@ -69,6 +74,7 @@ def enviar():
     telefone = telegram.telefone.text()
 
     configuracoes(idx, hashx, telefone)
+    salvar(telefone)
     telegram.notificacao.setText('Configuração Realizada')
 
     telegram.id.setText('')
@@ -87,12 +93,12 @@ menu.actionTransferir.triggered.connect(telegram)
 
 numero = uic.loadUi('UIs/numeros.ui')
 numero.adicionar.clicked.connect(addicionar)
-numero.registrar.clicked.connect(registro)
+numero.print.clicked.connect(printi)
 
 contatos = uic.loadUi('UIs/contatos.ui')
 
 telegram = uic.loadUi('UIs/transf.ui')
-telegram.enviar.clicked.connect(enviar)
+telegram.registrar.clicked.connect(enviar)
 
 add = uic.loadUi('UIs/addnum.ui')
 add.adicionar.clicked.connect(salvarnum)

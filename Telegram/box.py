@@ -3,7 +3,7 @@ dados = []
 
 def salvar(numero):
     with open('dados.txt', 'a') as file:
-        file.write(f'{numero}\n')
+        file.write(f'{numero} - Ativado\n')
         file.close()
 
 

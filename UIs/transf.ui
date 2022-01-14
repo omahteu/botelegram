@@ -30,7 +30,7 @@
      <bool>true</bool>
     </property>
    </widget>
-   <widget class="QPushButton" name="enviar">
+   <widget class="QPushButton" name="registrar">
     <property name="geometry">
      <rect>
       <x>20</x>
@@ -39,8 +39,13 @@
       <height>31</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
     <property name="text">
-     <string>ENVIAR</string>
+     <string>REGISTRAR</string>
     </property>
    </widget>
    <widget class="QLineEdit" name="hash">
