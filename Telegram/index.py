@@ -40,7 +40,8 @@ def salvarnum():
             # add.notificacao.setText('Número Cadastrado')
             add.numero.setText('')
             telegram.show()
-            telegram.numero.setText(num)
+            telegram.numero.setText(f"+55{num}")
+            add.close()
         else:
             add.notificacao.setText('Número Inválido')
     else:
