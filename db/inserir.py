@@ -5,7 +5,10 @@ cursor = conn.cursor()
 
 
 def salvar(numero, status):
-    cursor.execute(f"INSERT INTO clientes (numero, status) VALUES ({numero}, {status})")
+    cursor.execute("""
+    INSERT INTO contato (numero, status)
+    VALUES (?,?)
+    """, (numero, status))
 
     conn.commit()
     conn.close()
