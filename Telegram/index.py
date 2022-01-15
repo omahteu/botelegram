@@ -1,6 +1,7 @@
 from PyQt5 import uic, QtWidgets
 from Telegram.setup import configuracoes
-from Telegram.box import salvar, ler, dados
+from db.ler import leitura
+from db.inserir import salvar
 
 
 def autenticacao():
@@ -16,15 +17,11 @@ def autenticacao():
 
 def lista_numeros():
     numero.show()
-    dados.clear()
-
-    ler()
-    qtd = len(dados)
-
+    dados = leitura()
     numero.listWidget.clear()
 
-    for t in dados[0: qtd]:
-        numero.listWidget.addItem(t)
+    for t in dados:
+        numero.listWidget.addItem(f"{t[1]} - {t[2]}")
 
 
 def addicionar():
@@ -74,7 +71,7 @@ def enviar():
     telefone = telegram.telefone.text()
 
     configuracoes(idx, hashx, telefone)
-    salvar(telefone)
+    salvar(telefone, 'Ativado')
     telegram.notificacao.setText('Configuração Realizada')
 
     telegram.id.setText('')

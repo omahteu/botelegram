@@ -1,16 +1,18 @@
 import sqlite3
+from os import path
 
-conn = sqlite3.connect('contatos.db')
-cursor = conn.cursor()
+BASE_DIR = path.dirname(path.abspath(__file__))
+db_path = path.join(BASE_DIR, "contatos.db")
+with sqlite3.connect(db_path) as db:
+    cursor = db.cursor()
 
+    def salvar(numero, status):
+        cursor.execute("""
+        INSERT INTO contato (numero, status)
+        VALUES (?,?)
+        """, (numero, status))
 
-def salvar(numero, status):
-    cursor.execute("""
-    INSERT INTO contato (numero, status)
-    VALUES (?,?)
-    """, (numero, status))
+        db.commit()
+        db.close()
 
-    conn.commit()
-    conn.close()
-
-    print('Dados inseridos com sucesso.')
+        print('Dados inseridos com sucesso.')
