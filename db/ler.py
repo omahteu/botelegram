@@ -7,11 +7,16 @@ with sqlite3.connect(db_path) as db:
     cursor = db.cursor()
 
     def leitura():
-        cursor.execute("SELECT * FROM contato")
-        dados = cursor.fetchall()
-        return dados
-
-        # for linha in cursor.fetchall():
-        #     print(linha)
-
-        # db.close()
+        try:
+            cursor.execute("""
+            CREATE TABLE contato (
+                    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+                    numero VARCHAR(14) NOT NULL,
+                    status TEXT NOT NULL
+            );
+            """)
+            cursor.execute("SELECT * FROM contato")
+            dados = cursor.fetchall()
+            return dados
+        except sqlite3.OperationalError:
+            pass

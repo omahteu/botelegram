@@ -20,8 +20,11 @@ def lista_numeros():
     dados = leitura()
     numero.listWidget.clear()
 
-    for t in dados:
-        numero.listWidget.addItem(f"{t[1]} - {t[2]}")
+    try:
+        for t in dados:
+            numero.listWidget.addItem(f"{t[1]} - {t[2]}")
+    except TypeError:
+        pass
 
 
 def addicionar():
@@ -80,24 +83,24 @@ def enviar():
 
 
 app = QtWidgets.QApplication([])
-inicial = uic.loadUi('UIs/inicio.ui')
+inicial = uic.loadUi('../UIs/inicio.ui')
 inicial.validar.clicked.connect(autenticacao)
 
-menu = uic.loadUi('UIs/menu.ui')
+menu = uic.loadUi('../UIs/menu.ui')
 menu.actionVer_N_meros.triggered.connect(lista_numeros)
 menu.actionInserir.triggered.connect(lista_numeros)
 menu.actionTransferir.triggered.connect(telegram)
 
-numero = uic.loadUi('UIs/numeros.ui')
+numero = uic.loadUi('../UIs/numeros.ui')
 numero.adicionar.clicked.connect(addicionar)
 numero.print.clicked.connect(printi)
 
-contatos = uic.loadUi('UIs/contatos.ui')
+contatos = uic.loadUi('../UIs/contatos.ui')
 
-telegram = uic.loadUi('UIs/transf.ui')
+telegram = uic.loadUi('../UIs/transf.ui')
 telegram.registrar.clicked.connect(enviar)
 
-add = uic.loadUi('UIs/addnum.ui')
+add = uic.loadUi('../UIs/addnum.ui')
 add.adicionar.clicked.connect(salvarnum)
 
 
