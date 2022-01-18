@@ -3,6 +3,9 @@ from Telegram.setup import configuracoes
 from db.ler import leitura
 from db.inserir import salvar
 from db.apagar import deletar
+from pathlib import Path, PureWindowsPath
+
+apagando = []
 
 
 def autenticacao():
@@ -27,15 +30,23 @@ def lista_numeros():
     except TypeError:
         pass
 
-    numero.listWidget.itemClicked.connect(item)  # connect itemClicked to Clicked method
+    numero.listWidget.itemClicked.connect(item)
 
 
 def item(item):
     text = item.text()
     text_formatado = text.split('-')[0].strip()
-    deletar(text_formatado)
-    print(text_formatado)
-    numero.close()
+    apagando.append(text_formatado)
+    # deletar(text_formatado)
+    # print(text_formatado)
+    # numero.close()
+
+
+def excluir():
+    aexcluir = apagando[-1]
+    local = str(Path.cwd())
+    url = PureWindowsPath(local[0:-8] + '/credenciais/' + aexcluir + '.data')
+    print(url)
 
 
 def addicionar():
@@ -72,11 +83,11 @@ def telegram():
                                 '3. Ao receber a confirmação o número já está registrado e pronto para uso.')
 
 
-def printi():
-    tex = numero.listWidget.selectedItems()
-    for nn in tex:
-        nume = nn.text()
-        nume_formatado = nume.split('-')[0].strip()
+# def printi():
+#     tex = numero.listWidget.selectedItems()
+#     for nn in tex:
+#         nume = nn.text()
+#         nume_formatado = nume.split('-')[0].strip()
 
 
 def enviar():
@@ -104,7 +115,7 @@ menu.actionTransferir.triggered.connect(telegram)
 
 numero = uic.loadUi('../UIs/numeros.ui')
 numero.adicionar.clicked.connect(addicionar)
-numero.print.clicked.connect(printi)
+numero.remover.clicked.connect(excluir)
 
 contatos = uic.loadUi('../UIs/contatos.ui')
 
