@@ -15,8 +15,8 @@ with sqlite3.connect(db_path) as db:
                     status TEXT NOT NULL
             );
             """)
+
+        except sqlite3.OperationalError:
             cursor.execute("SELECT * FROM contato")
             dados = cursor.fetchall()
             return dados
-        except sqlite3.OperationalError:
-            pass

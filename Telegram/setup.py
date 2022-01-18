@@ -8,7 +8,7 @@ import os
 
 
 def configuracoes(xid, xhash, xphone):
-    os.system(f"touch credenciais/{xphone}.data")
+    os.system(f"touch ../credenciais/{xphone}.data")
     cpass = configparser.RawConfigParser()
     cpass.add_section('cred')
     xid = xid
@@ -17,7 +17,7 @@ def configuracoes(xid, xhash, xphone):
     cpass.set('cred', 'hash',xhash)
     xphone = xphone
     cpass.set('cred', 'phone',xphone)
-    setup = open(f"credenciais/{xphone}.data", 'w')
+    setup = open(f"../credenciais/{xphone}.data", 'w')
     cpass.write(setup)
     setup.close()
     return print('Configuração Realizada!')

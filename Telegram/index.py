@@ -2,6 +2,7 @@ from PyQt5 import uic, QtWidgets
 from Telegram.setup import configuracoes
 from db.ler import leitura
 from db.inserir import salvar
+from db.apagar import deletar
 
 
 def autenticacao():
@@ -25,6 +26,16 @@ def lista_numeros():
             numero.listWidget.addItem(f"{t[1]} - {t[2]}")
     except TypeError:
         pass
+
+    numero.listWidget.itemClicked.connect(item)  # connect itemClicked to Clicked method
+
+
+def item(item):
+    text = item.text()
+    text_formatado = text.split('-')[0].strip()
+    deletar(text_formatado)
+    print(text_formatado)
+    numero.close()
 
 
 def addicionar():
@@ -103,14 +114,8 @@ telegram.registrar.clicked.connect(enviar)
 add = uic.loadUi('../UIs/addnum.ui')
 add.adicionar.clicked.connect(salvarnum)
 
-
 inicial.show()
 app.exec()
-
-
-
-
-
 
 # import configparser
 # config = configparser.ConfigParser()
