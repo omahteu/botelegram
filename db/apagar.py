@@ -6,9 +6,7 @@ db_path = path.join(BASE_DIR, "contatos.db")
 with sqlite3.connect(db_path) as db:
     cursor = db.cursor()
 
-
     def deleta(numero):
         cursor.execute("DELETE FROM contato WHERE numero = ?", (numero,))
         db.commit()
-        print('Registro excluido com sucesso.')
         db.close()

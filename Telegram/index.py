@@ -10,11 +10,11 @@ bolsa = []
 
 
 def autenticacao():
-    token = inicial.token.text()
+    token = login.token.text()
 
     if token == '':
         menu.show()
-        inicial.close()
+        login.close()
 
     else:
         print('ERRO 1')
@@ -100,7 +100,7 @@ def registrar():
         tela_adicionar_numero.notificacao.setText('Formato Inválido')
 
 
-def enviar():
+def enviar_autenticacao():
     idx = autenticacao.id.text()
     hashx = autenticacao.hash.text()
     telefone = autenticacao.telefone.text()
@@ -116,25 +116,26 @@ def enviar():
 
 app = QtWidgets.QApplication([])
 
-inicial = uic.loadUi('../UIs/inicio.ui')
-inicial.validar.clicked.connect(autenticacao)
+login = uic.loadUi("../UIs/login.ui")
+login.validar.clicked.connect(autenticacao)
 
-menu = uic.loadUi('../UIs/menu.ui')
+menu = uic.loadUi("../UIs/menu.ui")
 menu.actionVer_N_meros.triggered.connect(lista_numeros_telegram)
 menu.actionInserir.triggered.connect(exibir_adicionar_contato)
 
-tela_numeros_telegram = uic.loadUi('../UIs/numeros.ui')
+tela_numeros_telegram = uic.loadUi("../UIs/numeros.ui")
 tela_numeros_telegram.adicionar.clicked.connect(exibir_registrar)
 tela_numeros_telegram.remover.clicked.connect(remover)
 tela_numeros_telegram.sair.clicked.connect(sair)
 
-tela_adicionar_numero = uic.loadUi('../UIs/addnum.ui')
+tela_adicionar_numero = uic.loadUi("../UIs/addNumero.ui")
 tela_adicionar_numero.adicionar.clicked.connect(registrar)
 
 tela_adicionar_contato = uic.loadUi("../UIs/addContato.ui")
 tela_adicionar_contato.adicionar.clicked.connect(adicionar_contato)
 
-autenticacao = uic.loadUi('../UIs/transf.ui')
+autenticacao = uic.loadUi("../UIs/registro.ui")
+autenticacao.registrar.clicked.connect(enviar_autenticacao)
 
-inicial.show()
+login.show()
 app.exec()
