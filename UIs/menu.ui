@@ -33,6 +33,7 @@
     <addaction name="actionVer_N_meros"/>
     <addaction name="actionInserir"/>
     <addaction name="actionSuporte"/>
+    <addaction name="actionTransferencia"/>
    </widget>
    <addaction name="menuA_es"/>
   </widget>
@@ -55,6 +56,11 @@
   <action name="actionSuporte">
    <property name="text">
     <string>Suporte</string>
+   </property>
+  </action>
+  <action name="actionTransferencia">
+   <property name="text">
+    <string>Transferência</string>
    </property>
   </action>
  </widget>
