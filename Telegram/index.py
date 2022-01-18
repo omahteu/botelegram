@@ -2,11 +2,11 @@ from PyQt5 import uic, QtWidgets
 from Telegram.setup import configuracoes
 from db.ler import leitura
 from db.inserir import salvar
-from db.apagar import deletar
+from db.apagar import deleta
 from pathlib import Path, PureWindowsPath, PurePosixPath
 from os import remove
 
-apagando = []
+bolsa = []
 
 
 def autenticacao():
@@ -35,50 +35,54 @@ def lista_numeros_telegram():
 
 
 def item(item):
-    text = item.text()
-    text_formatado = text.split('-')[0].strip()
-    apagando.append(text_formatado)
+    texto = item.text()
+    texto_formatado = texto.split('-')[0].strip()
+    bolsa.append(texto_formatado)
 
 
-def excluir():
-    aexcluir = apagando[-1]
+def remover():
+    aexcluir = bolsa[-1]
     local = str(Path.cwd())
     url = PureWindowsPath(local[0:-8] + '/credenciais/' + aexcluir + '.data')
     try:
         remove(url)
-        deletar(aexcluir)
-        apagando.clear()
+        deleta(aexcluir)
+        bolsa.clear()
         tela_numeros_telegram.close()
 
     except FileNotFoundError:
         url = PurePosixPath(local[0:-8] + '/credenciais/' + aexcluir + '.data')
         remove(url)
-        deletar(aexcluir)
-        apagando.clear()
+        deleta(aexcluir)
+        bolsa.clear()
         tela_numeros_telegram.close()
 
 
-def addicionar():
-    add.show()
+def sair():
+    tela_numeros_telegram.close()
+
+
+def adicionar_contato():
+    tela_adicionar_contato.show()
 
 
 def salvarnum():
-    num = add.tela_numeros_telegram.text()
+    num = tela_adicionar_contato.tela_numeros_telegram.text()
 
     if str(num).isnumeric():
         if len(str(num)) == 11:
             # salvar(str(num).strip())
             # add.notificacao.setText('Número Cadastrado')
-            add.tela_numeros_telegram.setText('')
+            tela_adicionar_contato.tela_numeros_telegram.setText('')
             telegram.show()
             telegram.numero.setText(f"+55{num}")
             telegram.telefone.setText(f"+55{num}")
-            add.close()
+            tela_adicionar_contato.close()
 
         else:
-            add.notificacao.setText('Número Inválido')
+            tela_adicionar_contato.notificacao.setText('Número Inválido')
     else:
-        add.notificacao.setText('Formato Inválido')
+        tela_adicionar_contato.notificacao.setText('Formato Inválido')
 
 
 def lista_inserir_contatos():
@@ -112,20 +116,23 @@ inicial.validar.clicked.connect(autenticacao)
 
 menu = uic.loadUi('../UIs/menu.ui')
 menu.actionVer_N_meros.triggered.connect(lista_numeros_telegram)
-# menu.actionInserir.triggered.connect(lista_numeros_telegram)
+menu.actionInserir.triggered.connect(adicionar_contato)
 menu.actionTransferir.triggered.connect(telegram)
 
 tela_numeros_telegram = uic.loadUi('../UIs/numeros.ui')
-tela_numeros_telegram.adicionar.clicked.connect(addicionar)
-tela_numeros_telegram.remover.clicked.connect(excluir)
+tela_numeros_telegram.adicionar.clicked.connect(adicionar_contato)
+tela_numeros_telegram.remover.clicked.connect(remover)
+tela_numeros_telegram.sair.clicked.connect(sair)
+
+tela_adicionar_contato = uic.loadUi('../UIs/addnum.ui')
+tela_adicionar_contato.adicionar.clicked.connect(salvarnum)
 
 contatos = uic.loadUi('../UIs/contatos.ui')
 
 telegram = uic.loadUi('../UIs/transf.ui')
 telegram.registrar.clicked.connect(enviar)
 
-add = uic.loadUi('../UIs/addnum.ui')
-add.adicionar.clicked.connect(salvarnum)
+
 
 inicial.show()
 app.exec()
