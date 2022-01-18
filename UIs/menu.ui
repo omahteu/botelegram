@@ -32,7 +32,6 @@
     </property>
     <addaction name="actionVer_N_meros"/>
     <addaction name="actionInserir"/>
-    <addaction name="actionTransferir"/>
     <addaction name="actionSuporte"/>
    </widget>
    <addaction name="menuA_es"/>

@@ -1,9 +1,9 @@
-from PyQt5 import uic, QtWidgets
+from pathlib import Path, PureWindowsPath, PurePosixPath
 from Telegram.setup import configuracoes
-from db.ler import leitura
+from PyQt5 import uic, QtWidgets
 from db.inserir import salvar
 from db.apagar import deleta
-from pathlib import Path, PureWindowsPath, PurePosixPath
+from db.ler import leitura
 from os import remove
 
 bolsa = []
@@ -62,77 +62,79 @@ def sair():
     tela_numeros_telegram.close()
 
 
-def adicionar_contato():
+def exibir_adicionar_contato():
     tela_adicionar_contato.show()
 
 
-def salvarnum():
-    num = tela_adicionar_contato.tela_numeros_telegram.text()
+def adicionar_contato():
+    numero = tela_adicionar_contato.numero.text()
 
-    if str(num).isnumeric():
-        if len(str(num)) == 11:
-            # salvar(str(num).strip())
-            # add.notificacao.setText('Número Cadastrado')
-            tela_adicionar_contato.tela_numeros_telegram.setText('')
-            telegram.show()
-            telegram.numero.setText(f"+55{num}")
-            telegram.telefone.setText(f"+55{num}")
-            tela_adicionar_contato.close()
-
+    if str(numero).isnumeric():
+        if len(str(numero)) == 11:
+            tela_adicionar_contato.numero.setText('')
         else:
             tela_adicionar_contato.notificacao.setText('Número Inválido')
     else:
         tela_adicionar_contato.notificacao.setText('Formato Inválido')
 
 
-def lista_inserir_contatos():
-    contatos.show()
+def exibir_registrar():
+    tela_adicionar_numero.show()
 
 
-def telegram():
-    telegram.show()
-    telegram.listWidget.addItem('1. Acesse o site: https://my.telegram.org/auth, cria sua conta e insira os dados nos '
-                                'campos ao lado.\n2. Após preencher todos os campos disponíveis clique em ENVIAR.\n'
-                                '3. Ao receber a confirmação o número já está registrado e pronto para uso.')
+def registrar():
+    numero_telefone = tela_adicionar_numero.numero.text()
+
+    if str(numero_telefone).isnumeric():
+        if len(str(numero_telefone)) == 11:
+            # salvar(str(num).strip())
+            # add.notificacao.setText('Número Cadastrado')
+            tela_adicionar_numero.numero.setText('')
+            autenticacao.show()
+            autenticacao.numero.setText(f"+55{numero_telefone}")
+            autenticacao.telefone.setText(f"+55{numero_telefone}")
+            tela_adicionar_numero.close()
+        else:
+            tela_adicionar_numero.notificacao.setText('Número Inválido')
+    else:
+        tela_adicionar_numero.notificacao.setText('Formato Inválido')
 
 
 def enviar():
-    idx = telegram.id.text()
-    hashx = telegram.hash.text()
-    telefone = telegram.telefone.text()
+    idx = autenticacao.id.text()
+    hashx = autenticacao.hash.text()
+    telefone = autenticacao.telefone.text()
 
     configuracoes(idx, hashx, telefone)
     salvar(telefone, 'Ativado')
-    telegram.notificacao.setText('Configuração Realizada')
+    autenticacao.notificacao.setText('Configuração Realizada')
 
-    telegram.id.setText('')
-    telegram.hash.setText('')
-    telegram.telefone.setText('')
+    autenticacao.id.setText('')
+    autenticacao.hash.setText('')
+    autenticacao.telefone.setText('')
 
 
 app = QtWidgets.QApplication([])
+
 inicial = uic.loadUi('../UIs/inicio.ui')
 inicial.validar.clicked.connect(autenticacao)
 
 menu = uic.loadUi('../UIs/menu.ui')
 menu.actionVer_N_meros.triggered.connect(lista_numeros_telegram)
-menu.actionInserir.triggered.connect(adicionar_contato)
-menu.actionTransferir.triggered.connect(telegram)
+menu.actionInserir.triggered.connect(exibir_adicionar_contato)
 
 tela_numeros_telegram = uic.loadUi('../UIs/numeros.ui')
-tela_numeros_telegram.adicionar.clicked.connect(adicionar_contato)
+tela_numeros_telegram.adicionar.clicked.connect(exibir_registrar)
 tela_numeros_telegram.remover.clicked.connect(remover)
 tela_numeros_telegram.sair.clicked.connect(sair)
 
-tela_adicionar_contato = uic.loadUi('../UIs/addnum.ui')
-tela_adicionar_contato.adicionar.clicked.connect(salvarnum)
+tela_adicionar_numero = uic.loadUi('../UIs/addnum.ui')
+tela_adicionar_numero.adicionar.clicked.connect(registrar)
 
-contatos = uic.loadUi('../UIs/contatos.ui')
+tela_adicionar_contato = uic.loadUi("../UIs/addContato.ui")
+tela_adicionar_contato.adicionar.clicked.connect(adicionar_contato)
 
-telegram = uic.loadUi('../UIs/transf.ui')
-telegram.registrar.clicked.connect(enviar)
-
-
+autenticacao = uic.loadUi('../UIs/transf.ui')
 
 inicial.show()
 app.exec()

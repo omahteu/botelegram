@@ -65,6 +65,9 @@
     </property>
    </widget>
    <widget class="QLineEdit" name="telefone">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>20</x>
@@ -77,7 +80,7 @@
      <string/>
     </property>
     <property name="placeholderText">
-     <string>TELEFONE</string>
+     <string/>
     </property>
     <property name="clearButtonEnabled">
      <bool>true</bool>
@@ -101,6 +104,31 @@
     <property name="wordWrap">
      <bool>true</bool>
     </property>
+    <item>
+     <property name="text">
+      <string>1. Acesse o site: https://my.telegram.org/auth, cria sua conta e insira os dados nos campos ao lado.</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string/>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>2. Após preencher todos os campos disponíveis clique em ENVIAR.</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string/>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>3. Ao receber a confirmação o número já está registrado e pronto para uso.</string>
+     </property>
+    </item>
    </widget>
    <widget class="QLabel" name="notificacao">
     <property name="geometry">
