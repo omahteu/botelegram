@@ -12,5 +12,4 @@ CREATE TABLE contato (
 );
 """)
 
-print('Tabela criada com sucesso.')
 conn.close()
