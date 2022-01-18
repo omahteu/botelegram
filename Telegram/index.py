@@ -3,7 +3,8 @@ from Telegram.setup import configuracoes
 from db.ler import leitura
 from db.inserir import salvar
 from db.apagar import deletar
-from pathlib import Path, PureWindowsPath
+from pathlib import Path, PureWindowsPath, PurePosixPath
+from os import remove
 
 apagando = []
 
@@ -19,34 +20,42 @@ def autenticacao():
         print('ERRO 1')
 
 
-def lista_numeros():
-    numero.show()
+def lista_numeros_telegram():
+    tela_numeros_telegram.show()
     dados = leitura()
-    numero.listWidget.clear()
+    tela_numeros_telegram.listaNumeros.clear()
 
     try:
         for t in dados:
-            numero.listWidget.addItem(f"{t[1]} - {t[2]}")
+            tela_numeros_telegram.listaNumeros.addItem(f"{t[1]} - {t[2]}")
     except TypeError:
         pass
 
-    numero.listWidget.itemClicked.connect(item)
+    tela_numeros_telegram.listaNumeros.itemClicked.connect(item)
 
 
 def item(item):
     text = item.text()
     text_formatado = text.split('-')[0].strip()
     apagando.append(text_formatado)
-    # deletar(text_formatado)
-    # print(text_formatado)
-    # numero.close()
 
 
 def excluir():
     aexcluir = apagando[-1]
     local = str(Path.cwd())
     url = PureWindowsPath(local[0:-8] + '/credenciais/' + aexcluir + '.data')
-    print(url)
+    try:
+        remove(url)
+        deletar(aexcluir)
+        apagando.clear()
+        tela_numeros_telegram.close()
+
+    except FileNotFoundError:
+        url = PurePosixPath(local[0:-8] + '/credenciais/' + aexcluir + '.data')
+        remove(url)
+        deletar(aexcluir)
+        apagando.clear()
+        tela_numeros_telegram.close()
 
 
 def addicionar():
@@ -54,13 +63,13 @@ def addicionar():
 
 
 def salvarnum():
-    num = add.numero.text()
+    num = add.tela_numeros_telegram.text()
 
     if str(num).isnumeric():
         if len(str(num)) == 11:
             # salvar(str(num).strip())
             # add.notificacao.setText('Número Cadastrado')
-            add.numero.setText('')
+            add.tela_numeros_telegram.setText('')
             telegram.show()
             telegram.numero.setText(f"+55{num}")
             telegram.telefone.setText(f"+55{num}")
@@ -83,13 +92,6 @@ def telegram():
                                 '3. Ao receber a confirmação o número já está registrado e pronto para uso.')
 
 
-# def printi():
-#     tex = numero.listWidget.selectedItems()
-#     for nn in tex:
-#         nume = nn.text()
-#         nume_formatado = nume.split('-')[0].strip()
-
-
 def enviar():
     idx = telegram.id.text()
     hashx = telegram.hash.text()
@@ -109,13 +111,13 @@ inicial = uic.loadUi('../UIs/inicio.ui')
 inicial.validar.clicked.connect(autenticacao)
 
 menu = uic.loadUi('../UIs/menu.ui')
-menu.actionVer_N_meros.triggered.connect(lista_numeros)
-menu.actionInserir.triggered.connect(lista_numeros)
+menu.actionVer_N_meros.triggered.connect(lista_numeros_telegram)
+# menu.actionInserir.triggered.connect(lista_numeros_telegram)
 menu.actionTransferir.triggered.connect(telegram)
 
-numero = uic.loadUi('../UIs/numeros.ui')
-numero.adicionar.clicked.connect(addicionar)
-numero.remover.clicked.connect(excluir)
+tela_numeros_telegram = uic.loadUi('../UIs/numeros.ui')
+tela_numeros_telegram.adicionar.clicked.connect(addicionar)
+tela_numeros_telegram.remover.clicked.connect(excluir)
 
 contatos = uic.loadUi('../UIs/contatos.ui')
 
@@ -127,8 +129,3 @@ add.adicionar.clicked.connect(salvarnum)
 
 inicial.show()
 app.exec()
-
-# import configparser
-# config = configparser.ConfigParser()
-# config.read('+5585999831355.data')
-# print(str(config['cred']['id']).strip())

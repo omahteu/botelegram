@@ -79,7 +79,7 @@
      <string>NÚMEROS</string>
     </property>
    </widget>
-   <widget class="QListWidget" name="listWidget">
+   <widget class="QListWidget" name="listaNumeros">
     <property name="geometry">
      <rect>
       <x>25</x>

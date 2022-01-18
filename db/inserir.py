@@ -16,3 +16,5 @@ with sqlite3.connect(db_path) as db:
         db.close()
 
         print('Dados inseridos com sucesso.')
+
+# salvar('+5585999831355', 'Ativado')
