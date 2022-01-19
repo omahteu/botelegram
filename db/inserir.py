@@ -14,3 +14,6 @@ with sqlite3.connect(db_path) as db:
 
         db.commit()
         db.close()
+
+
+# salvar('+5585999831355', 'ativado')

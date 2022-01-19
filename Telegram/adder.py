@@ -19,16 +19,19 @@ try:
     api_hash = cpass['cred']['hash']
     phone = cpass['cred']['phone']
     client = TelegramClient(phone, int(api_id), api_hash)
+    client.connect()
+
+    if not client.is_user_authorized():
+        client.send_code_request(phone)
+        system('clear')
+        client.sign_in(phone, input('[+] Enter the code: '))
+
 except KeyError:
     system('clear')
-    print("[!] run python setup.py first !!\n")
+    print("run python setup.py first !!\n")
     exit(1)
 
-client.connect()
-if not client.is_user_authorized():
-    client.send_code_request(phone)
-    system('clear')
-    client.sign_in(phone, input('[+] Enter the code: '))
+# client.connect()
 
 users = []
 with open(r"members.csv", encoding='UTF-8') as f:  # Enter your file name
@@ -79,7 +82,7 @@ for user in users:
     if n % 80 == 0:
         sleep(60)
     try:
-        print("Adding {}".format(user['id']))
+        print(f"Adding {user['id']}")
         if mode == 1:
             if user['username'] == "":
                 continue

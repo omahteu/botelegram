@@ -12,11 +12,11 @@ def configuracoes(xid, xhash, xphone):
     cpass = configparser.RawConfigParser()
     cpass.add_section('cred')
     xid = xid
-    cpass.set('cred', 'id',xid)
+    cpass.set('cred', 'id', xid)
     xhash = xhash
-    cpass.set('cred', 'hash',xhash)
+    cpass.set('cred', 'hash', xhash)
     xphone = xphone
-    cpass.set('cred', 'phone',xphone)
+    cpass.set('cred', 'phone', xphone)
     setup = open(f"../credenciais/{xphone}.data", 'w')
     cpass.write(setup)
     setup.close()

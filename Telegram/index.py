@@ -5,9 +5,30 @@ from db.inserir import salvar
 from db.apagar import deleta
 from db.ler import leitura
 from os import remove
+from Telegram.scraper import Scraper
+from PyQt5 import QtCore
+from time import sleep
 
 bolsa = []
+ram = []
 
+def start_timer(slot, count=1, interval=1000):
+    counter = 0
+    def handler():
+        nonlocal counter
+        counter += 1
+        slot(counter)
+        if counter >= count:
+            timer.stop()
+            timer.deleteLater()
+    timer = QtCore.QTimer()
+    timer.timeout.connect(handler)
+    timer.start(interval)
+
+def timer_func(count):
+    print('Timer:', count)
+    if count >= 5:
+        print('chegou')
 
 def autenticacao():
     token = login.token.text()
@@ -114,6 +135,43 @@ def enviar_autenticacao():
     autenticacao.telefone.setText('')
 
 
+def exibir_passos():
+    transicao_um.show()
+    # transicao_um.frame.close()
+
+    n = []
+
+    dados = leitura()
+    for obj in dados:
+        number = obj[1]
+        n.append(number)
+
+    transicao_um.numerosBox.addItems(n)
+
+
+def esperar(tempo):
+    sleep(tempo)
+
+
+def passo_um():
+    telefone = transicao_um.numerosBox.currentText()
+    transicao_um.numerosBox.setDisabled(True)
+    transicao_um.lineEdit.setDisabled(False)
+
+    inicializar = Scraper('../credenciais/+5585999831355.data')
+    inicializar.autenticar(telefone)
+    ram.append(telefone)
+    passo_dois(inicializar.autenticar(telefone))
+
+
+def passo_dois(processo):
+    codigo = transicao_um.lineEdit.text()
+    progres = processo
+    numero = ram[-1]
+    progres.authe(numero, codigo)
+    ram.clear()
+
+
 app = QtWidgets.QApplication([])
 
 login = uic.loadUi("../UIs/login.ui")
@@ -122,6 +180,7 @@ login.validar.clicked.connect(autenticacao)
 menu = uic.loadUi("../UIs/menu.ui")
 menu.actionVer_N_meros.triggered.connect(lista_numeros_telegram)
 menu.actionInserir.triggered.connect(exibir_adicionar_contato)
+menu.actionTransferencia.triggered.connect(exibir_passos)
 
 tela_numeros_telegram = uic.loadUi("../UIs/numeros.ui")
 tela_numeros_telegram.adicionar.clicked.connect(exibir_registrar)
@@ -136,6 +195,10 @@ tela_adicionar_contato.adicionar.clicked.connect(adicionar_contato)
 
 autenticacao = uic.loadUi("../UIs/registro.ui")
 autenticacao.registrar.clicked.connect(enviar_autenticacao)
+
+transicao_um = uic.loadUi("../UIs/transacao.ui")
+transicao_um.avancar.clicked.connect(passo_um)
+transicao_um.pushButton.clicked.connect(passo_dois)
 
 login.show()
 app.exec()
