@@ -6,26 +6,10 @@ from db.apagar import deleta
 from db.ler import leitura
 from os import remove
 from Telegram.scraper import Scraper
-from PyQt5 import QtCore
-from time import sleep
 
 bolsa = []
 ram = []
 path = []
-
-
-def start_timer(slot, count=1, interval=1000):
-    counter = 0
-    def handler():
-        nonlocal counter
-        counter += 1
-        slot(counter)
-        if counter >= count:
-            timer.stop()
-            timer.deleteLater()
-    timer = QtCore.QTimer()
-    timer.timeout.connect(handler)
-    timer.start(interval)
 
 
 def timer_func(count):
@@ -112,8 +96,6 @@ def registrar():
 
     if str(numero_telefone).isnumeric():
         if len(str(numero_telefone)) == 11:
-            # salvar(str(num).strip())
-            # add.notificacao.setText('Número Cadastrado')
             tela_adicionar_numero.numero.setText('')
             autenticacao.show()
             autenticacao.numero.setText(f"+55{numero_telefone}")
@@ -141,7 +123,6 @@ def enviar_autenticacao():
 
 def exibir_passos():
     transicao_um.show()
-    # transicao_um.frame.close()
 
     n = []
 
@@ -151,10 +132,6 @@ def exibir_passos():
         n.append(number)
 
     transicao_um.numerosBox.addItems(n)
-
-
-def esperar(tempo):
-    sleep(tempo)
 
 
 def passo_um():
@@ -171,9 +148,6 @@ def passo_um():
     inicializar.autenticar(telefone)
     return inicializar
 
-    # return inicializar.autenticar(telefone)
-    # passo_dois()
-
 
 def passo_dois():
     codigo = transicao_um.lineEdit.text()
@@ -181,16 +155,6 @@ def passo_dois():
 
     progresso = passo_um()
     progresso.cfm(numero, codigo)
-    # print(progresso)
-
-    # progresso.cfm(numero, codigo)
-    #
-    #
-
-    # url = path[-1]
-    # authe(url, numero, codigo)
-    # ram.clear()
-    # path.clear()
 
 
 app = QtWidgets.QApplication([])
