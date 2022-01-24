@@ -11,6 +11,8 @@ from time import sleep
 
 bolsa = []
 ram = []
+path = []
+
 
 def start_timer(slot, count=1, interval=1000):
     counter = 0
@@ -25,10 +27,12 @@ def start_timer(slot, count=1, interval=1000):
     timer.timeout.connect(handler)
     timer.start(interval)
 
+
 def timer_func(count):
     print('Timer:', count)
     if count >= 5:
         print('chegou')
+
 
 def autenticacao():
     token = login.token.text()
@@ -158,18 +162,35 @@ def passo_um():
     transicao_um.numerosBox.setDisabled(True)
     transicao_um.lineEdit.setDisabled(False)
 
-    inicializar = Scraper('../credenciais/+5585999831355.data')
-    inicializar.autenticar(telefone)
     ram.append(telefone)
-    passo_dois(inicializar.autenticar(telefone))
+
+    url = '../credenciais/+5585999831355.data'
+    path.append(url)
+
+    inicializar = Scraper(url)
+    inicializar.autenticar(telefone)
+    return inicializar
+
+    # return inicializar.autenticar(telefone)
+    # passo_dois()
 
 
-def passo_dois(processo):
+def passo_dois():
     codigo = transicao_um.lineEdit.text()
-    progres = processo
     numero = ram[-1]
-    progres.authe(numero, codigo)
-    ram.clear()
+
+    progresso = passo_um()
+    progresso.cfm(numero, codigo)
+    # print(progresso)
+
+    # progresso.cfm(numero, codigo)
+    #
+    #
+
+    # url = path[-1]
+    # authe(url, numero, codigo)
+    # ram.clear()
+    # path.clear()
 
 
 app = QtWidgets.QApplication([])
