@@ -1,7 +1,6 @@
 from csv import writer
 from os import system
 from sys import exit
-from time import sleep
 from configparser import RawConfigParser
 
 from telethon.sync import TelegramClient
@@ -42,7 +41,7 @@ from telethon.tl.types import InputPeerEmpty
 #     hash=0
 # ))
 # chats.extend(result.chats)
-#
+
 # for chat in chats:
 #     try:
 #         if chat.megagroup:
@@ -50,13 +49,11 @@ from telethon.tl.types import InputPeerEmpty
 #     except:
 #         continue
 #
-# print('Choose a group to scrape members :')
-# i = 0
+# print('Escolha um grupo para raspar os membros :')
+
 # for g in groups:
-#     print('[' + str(i) + ']' + ' - ' + g.title)
-#     i += 1
-#
-# print('')
+#     print(g.title)
+
 # g_index = input("Enter a Number : ")
 # target_group = groups[int(g_index)]
 #
@@ -86,11 +83,16 @@ from telethon.tl.types import InputPeerEmpty
 #         name = (first_name + ' ' + last_name).strip()
 #         writer.writerow([username, user.id, user.access_hash, name, target_group.title, target_group.id])
 # print('Members scraped successfully. Subscribe Termux Professor Youtube Channel For Add Members')
+chats = []
+groups = []
+all_participants = []
 
 
 class Scraper:
     def __init__(self, arquivo):
+        self.codigo = None
         self.phone = None
+        self.grupo = None
         self.arquivo = arquivo
 
     def carregar_arquivo(self):
@@ -120,6 +122,59 @@ class Scraper:
     def cfm(self, phone, codigo):
         self.phone = phone
         system('clear')
-        dad = self.autenticar(self.phone)
-        dad.sign_in(phone, codigo)
+        client = self.autenticar(self.phone)
+        client.sign_in(phone, codigo)
 
+        system('clear')
+
+        last_date = None
+        chunk_size = 200
+
+        result = client(GetDialogsRequest(
+            offset_date=last_date,
+            offset_id=0,
+            offset_peer=InputPeerEmpty(),
+            limit=chunk_size,
+            hash=0
+        ))
+        chats.extend(result.chats)
+
+        for chat in chats:
+            try:
+                if chat.megagroup:
+                    groups.append(chat)
+            except:
+                continue
+
+        return client
+
+    def coleta(self, grupo, phone, codigo):
+        self.grupo = grupo
+        self.phone = phone
+        self.codigo = codigo
+        client = self.cfm(self.phone, self.codigo)
+
+        g_index = grupo
+        target_group = groups[int(g_index)]
+
+        all_participants = client.get_participants(target_group, aggressive=True)
+
+        with open("members.csv", "w", encoding='UTF-8') as f:
+            write = writer(f, delimiter=",", lineterminator="\n")
+            write.writerow(['username', 'user id', 'access hash', 'name', 'group', 'group id'])
+            for user in all_participants:
+                if user.username:
+                    username = user.username
+                else:
+                    username = ""
+                if user.first_name:
+                    first_name = user.first_name
+                else:
+                    first_name = ""
+                if user.last_name:
+                    last_name = user.last_name
+                else:
+                    last_name = ""
+                name = (first_name + ' ' + last_name).strip()
+                write.writerow([username, user.id, user.access_hash, name, target_group.title, target_group.id])
+        print('Members scraped successfully.')

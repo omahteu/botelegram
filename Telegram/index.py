@@ -155,6 +155,11 @@ def passo_dois():
 
     progresso = passo_um()
     progresso.cfm(numero, codigo)
+    return progresso
+
+
+def passo_tres():
+    pass
 
 
 app = QtWidgets.QApplication([])
