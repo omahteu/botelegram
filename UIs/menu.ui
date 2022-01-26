@@ -60,7 +60,7 @@
   </action>
   <action name="actionTransferencia">
    <property name="text">
-    <string>Transferência</string>
+    <string>Extração</string>
    </property>
   </action>
  </widget>

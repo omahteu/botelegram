@@ -5,17 +5,13 @@ from db.inserir import salvar
 from db.apagar import deleta
 from db.ler import leitura
 from os import remove
-from Telegram.scraper import Scraper
+from Telegram.scraper import Scraper, groups
 
 bolsa = []
 ram = []
 path = []
-
-
-def timer_func(count):
-    print('Timer:', count)
-    if count >= 5:
-        print('chegou')
+cod = []
+nomes = []
 
 
 def autenticacao():
@@ -152,14 +148,32 @@ def passo_um():
 def passo_dois():
     codigo = transicao_um.lineEdit.text()
     numero = ram[-1]
+    cod.append(codigo)
 
     progresso = passo_um()
     progresso.cfm(numero, codigo)
+    for za in groups:
+        print(za)
     return progresso
 
 
 def passo_tres():
-    pass
+    client = passo_dois()
+
+    for gp in groups:
+        transicao_um.grupoBox.addItems(gp)
+        nomes.append(gp)
+
+    grupo = transicao_um.grupoBox.currentText()
+    gpo = nomes.index(grupo)
+    numero = ram[-1]
+    codi = cod[-1]
+
+    print(gpo, numero, codi)
+    print('*******************')
+    print(nomes)
+
+    # client.coleta(grupo, numero, codi)
 
 
 app = QtWidgets.QApplication([])

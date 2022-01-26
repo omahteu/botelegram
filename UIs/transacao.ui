@@ -6,12 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>333</width>
-    <height>543</height>
+    <width>313</width>
+    <height>507</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: rgb(195, 200, 206);</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QComboBox" name="numerosBox">
@@ -29,7 +32,7 @@
      <rect>
       <x>50</x>
       <y>100</y>
-      <width>201</width>
+      <width>211</width>
       <height>31</height>
      </rect>
     </property>
@@ -48,11 +51,14 @@
     </property>
     <property name="geometry">
      <rect>
-      <x>42</x>
-      <y>190</y>
-      <width>221</width>
+      <x>50</x>
+      <y>200</y>
+      <width>211</width>
       <height>28</height>
      </rect>
+    </property>
+    <property name="placeholderText">
+     <string>CÓDIGO DE VERIFICAÇÃO</string>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton">
@@ -76,9 +82,9 @@
    <widget class="QComboBox" name="grupoBox">
     <property name="geometry">
      <rect>
-      <x>40</x>
+      <x>50</x>
       <y>360</y>
-      <width>231</width>
+      <width>221</width>
       <height>31</height>
      </rect>
     </property>
@@ -88,7 +94,7 @@
      <rect>
       <x>50</x>
       <y>410</y>
-      <width>211</width>
+      <width>221</width>
       <height>28</height>
      </rect>
     </property>
@@ -131,7 +137,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>333</width>
+     <width>313</width>
      <height>22</height>
     </rect>
    </property>

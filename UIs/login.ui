@@ -30,7 +30,7 @@
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>../../../Downloads/WhatsApp Image 2021-12-28 at 18.00.36.jpeg</pixmap>
+     <pixmap>../imagem/IMG-20211206-WA0014.jpg</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
